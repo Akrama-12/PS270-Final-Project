@@ -22,33 +22,40 @@ For my research, I would like to investigate how achieving a higher education wo
 ```{r}
 library(ggplot2)
 library(tidyverse)
-
-
-turnout <- read_csv("data/file_from_turnout.csv") 
-turnout |>
-  ggplot(mapping = aes(x = Voting Rates,
-                       y = Presidential Election + 
-  geom_point(color = "indianred") + 
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "Voters Turnout by Education Level",
-       x = "Educational Level Achieved",
-       y = "The Voters Turnout")
-  
-  
-  
-  
-  
-  
-  
-  
-                       
-                       
-ggplot(data = refugees,
-mapping = aes(x = arrivals,
-y = thermometer_muslimmigr)) +
-geom_point(color = "black") +
-geom_smooth(method = "lm", se = FALSE) +
-labs(x = "Number of Refugee Arrivals per Capita",
-       y = "Thermometer Scores about Muslim Immigrants")
+library(readr)
+library(dplyr)
+turnout <- read_csv("index_files/Turnout.csv") 
 ```
+
+```{r}
+getwd()
+setwd("/Users/ikramohamed/Desktop")
+getwd
+```
+
+```{r}
+turnout <- data.frame(
+  Years = c(1964, 1968, 1972, 1976, 1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012, 2016),
+  Grade_9_to_11 = c(65.4, 61.3, 52.0, 47.2, 47.2, 46.1, 43.7, 44.9, 37.3, 38.0, 39.8, 39.9, 38.3, 35.4),
+  High_School_Diploma = c(76.1, 72.5, 65.4, 59.4, 60.5, 60.4, 56.7, 60.1, 51.7, 52.5, 56.4, 54.9, 52.6, 51.5),
+  Some_College_Associate = c(82.1, 78.4, 74.9, 68.1, 69.2, 69.7, 67.0, 71.7, 63.1, 63.1, 68.9, 68.0, 64.2, 63.3),
+  Bachelors_Degree_Higher = c(87.5, 84.1, 83.6, 79.8, 82.8, 82.3, 81.4, 85.3, 77.0, 77.5, 79.7, 78.9, 77.1, 76.3)
+)
+
+turnout_long <- turnout |>
+  pivot_longer(cols = -Years, names_to = "Education_Level", values_to = "Percentage")
+
+ggplot(turnout_long, aes(x = Years, y = Percentage, color = Education_Level)) +
+  geom_line() + 
+  geom_point() +
+  labs(
+    title = "Voting rates among citizen in the United States from 1964 to 2016, by educational level", 
+    x = "Year",
+    y = "Percentage of Voter Turnout",
+    color = "Education Level"
+  ) 
+```
+This is a plot showcasing the voting rates among citizens during presidential elections in the United States from 1964 to 2016, by education level, which does show the achieving a higher education does in fact influence the voter turnout in the United States. In other words those who have obtained a bachelor degree or higher have a higher voting rates than compared to any other education level, according to the tables percentages and plot outcome. 
+
+
 
