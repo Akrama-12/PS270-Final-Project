@@ -54,7 +54,7 @@ ggplot(turnout_long, aes(x = Years, y = Percentage, color = Education_Level)) +
     © Statista 2024 Some college or associate degree", 
     x = "Year",
     y = "Percentage of Voter Turnout",
-    color = "Education Level"
+    color = "Education Level" 
   ) +
   theme_minimal()
 ```
@@ -74,7 +74,7 @@ turnout_table <- turnout_long |>
     Max_Percentage = max(Percentage)
   )
 
-knitr::kable(turnout_summary, 
+knitr::kable(turnout_table, 
             digits = 2, 
             col.names = c("Education Level", "Mean", "SD", "Min", "Max"),
             caption = "Summary of Voter Turnout by Education Level (1964-2016)")
