@@ -118,55 +118,34 @@ knitr::kable(model_results,
 ```
 
 ```{r}
-ggplot(model_results, aes(x = reorder(term, -estimate), y = estimate)) +
-  geom_bar(stat = "identity", fill = "skyblue") +
-  geom_errorbar(aes(ymin = estimate - std.error, ymax = estimate + std.error), width = 0.2) +
+ggplot(turnout, aes(x = Education, y = Outcome, fill = Education)) +
+  stat_summary(fun = mean, geom = "bar") +
   labs(
-    title = "Regression of Voter Turnout by Education Level",
-    subtitle = "Effect of Education Level on Voter Turnout (Estimates with Standard Errors)",
+    title = "Average Voter Turnout by Education Level",
+    subtitle = "United States (1964–2016)",
     x = "Education Level",
-    y = "Estimate (%)"
+    y = "Voter Turnout (%)"
   ) +
   theme_minimal() +
   theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    panel.grid.major.x = element_blank()
+    axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+    plot.margin = margin(b = 40, l = 10, r = 10, t = 10)
   )
 ```
 
-```{r}
-ggplot(model_results[-1,], aes(x = reorder(term, estimate), y = estimate)) +
-  geom_point(size = 3, color = "steelblue") +
-  geom_errorbar(aes(ymin = estimate - 1.96 * std.error, 
-                    ymax = estimate + 1.96 * std.error), 
-                width = 0.2, color = "steelblue") +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "gray50") +
-  coord_flip() +
-  labs(
-    title = "Effect of Education Levels on Voter Turnout",
-    subtitle = "Compared to College Graduates (Reference Group)",
-    x = "Education Level",
-    y = "Change in Voter Turnout (%)"
-  ) +
-  theme_minimal() +
-  theme(
-    panel.grid.minor = element_blank(),
-    plot.title = element_text(face = "bold"),
-    axis.text = element_text(size = 10)
-  )
-```
+Both the regression ran with our data and the plot results illustrates the trends in voter turnout percentages from 1964 to 2016 for individuals categorized by education levels. Those with higher education (Bachelor's Degree or higher) consistently exhibit the highest voter turnout, while individuals with lower education levels (e.g., Grade 9 to 11) show the lowest turnout. Over time, turnout for all groups has experienced a slight decline, with the steepest reductions observed among individuals with less education.
+
+Furthermore, the regression results support the insights derived from the plot, indicating significant differences in voter turnout based on education levels. The intercept of 80.950 represents the estimated voter turnout for the reference category—individuals with a Bachelor's Degree or higher—in a baseline year, serving as the benchmark for comparison. Specifically, individuals with Grade 9 to 11 education have a voter turnout that is 35.486 percentage points lower than the reference group, with a t-statistic of -13.917 and a p-value less than 0.001, indicating statistical significance. Those with a High School Diploma experience a turnout that is 21.614 percentage points lower than the reference group, also highly significant, with a t-statistic of -8.477 and a p-value less than 0.001. Additionally, individuals with some college education or an Associate Degree show a turnout that is 11.543 percentage points lower than those with a Bachelor's Degree or higher, which is statistically significant (t = -4.527, p < 0.001).
+
+The statistical significance of all coefficients is evident from the p-values (all < 0.05), strongly supporting the hypothesis that individuals with higher education are more likely to vote. However, it is important to note that the regression design does not allow for causal inference, as factors such as the political climate, regional differences, and socio-economic status could confound the observed relationships. Without additional controls or a randomized design, we cannot claim that education causes higher voter turnout. Taking into fact that this data showed an outcome of a majority constant standard error results this does have its down side and problems for it could be a violation of assumptions, misleading robutness of estimates, and altogether not reflect the true variability of the data.The analysis has several limitations, including missing data or unmeasured confounders that may introduce bias, such as regional differences in voter laws or socio-economic factors. Additionally, the model assumes a linear relationship between education and voter turnout, which may oversimplify the reality. To improve the analysis, incorporating additional covariates—such as age, income, or state-level policies—and considering longitudinal or experimental designs could strengthen causal inference. Expanding the data-set to include geographic identifiers would also allow for the creation of detailed spatial maps, enhancing the interpret-ability of trends.
 
 
 
+Conclusion:
+In conclusion, the analysis strongly supports the hypothesis that voter turnout in the United States is influenced by education level, with significant differences among educational groups. Individuals with higher education (Bachelor’s Degree or higher) show higher voter turnout and a slower decline over time compared to those with lower education levels, particularly those with a Grade 9 to 11 education, who experience a more significant decrease. The regression model highlights that the relationship between time and voter turnout varies by education level. However, the cross-sectional nature of the data limits causal conclusions, as external factors like political shifts and economic events could influence trends. Additionally, confounding variables such as race, age, and income were not included. A longitudinal study with detailed individual-level data could better address these limitations and provide stronger insights into the factors affecting voter turnout. Incorporating variables like political ideology and regional differences would further enhance the analysis.
 
 
 
-
-
-
-
-
-The model shows that the intercept (413.4549) corresponds to voter turnout when Years = 0, with education at the reference category of "Bachelor's Degree or Higher." However, this value lacks a meaningful interpretation for Years = 0. For individuals with at least a Bachelor's Degree, each additional year leads to a decrease in voter turnout by 0.17 percentage points, indicating a moderated decline compared to the previous model's stronger effect of -0.33 percentage points. Voter turnout for those with lower education levels is significantly higher, with individuals having a Grade 9 to 11 education level showing 588.63 percentage points more turnout, while those with a High School Diploma and some college/associate degree display increases of 429.74 and 205.61 percentage points, respectively. The interaction terms reveal that each additional year results in a reduction in turnout for these groups, with a decrease of 0.31 percentage points for Grade 9 to 11, 0.23 for High School Diploma, and 0.11 for Some College or Associate Degree, suggesting a more pronounced decline for those with less education. While the coefficients for Years and interaction terms are likely statistically significant if p-values are below 0.05, establishing causal inference is limited due to the cross-sectional design, as external factors like political and economic changes may also impact voter turnout trends. Visualizing these results would show distinct trends by education level over time: a steep downward trend for Grade 9 to 11, a moderate decline for High School Diploma holders, and the slowest decrease for those with Some College or Associate Degrees. The line for individuals with a Bachelor's Degree or Higher (the reference group) would show a gradual decline with the smallest rate of decrease compared to the other groups. Overall, the findings emphasize how lower education correlates with a more substantial decline in voter turnout over time. but also highlights that this trend is moderated by time and the rate at which voter turnout decreases across different education levels.
 
 
 
